@@ -18,4 +18,4 @@
 - [lint-staged](https://github.com/okonet/lint-staged)
 - [React Query](https://react-query.tanstack.com/)
 - [Vitest](https://vitest.dev/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
