@@ -7,3 +7,11 @@
     text-wrap: balance;
   }
 }
+
+.x-section-padding {
+  @apply px-8 md:px-16 xl:px-28 2xl:px-44;
+}
+
+.main-title {
+  @apply text-xl xl:text-3xl font-semibold;
+}
