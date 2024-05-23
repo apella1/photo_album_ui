@@ -6,6 +6,10 @@
 - Run `pnpm dev` to start the development server
 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Deployment
+
+- [Deployment Link](https://pt-album.vercel.app/)
+
 ## Technologies Used
 
 - [Next.js](https://nextjs.org/)
