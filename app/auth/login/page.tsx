@@ -51,11 +51,11 @@ export default function Login() {
           setError(
             typeof errMsg === "string"
               ? errMsg
-              : "An unexpected error occurred. Please try again."
+              : "An unexpected error occurred. Please try again later."
           );
         });
     } catch (error: unknown) {
-      setError("An unexpected error occurred. Please try again.");
+      setError("An unexpected error occurred. Please try again later.");
       console.error(error);
     } finally {
       setLoading(false);
