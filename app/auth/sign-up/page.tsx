@@ -65,7 +65,7 @@ export default function SignUp() {
             setServerError(
               typeof errMsg === "string"
                 ? errMsg
-                : "An unexpected error occurred. Please try again."
+                : "An unexpected error occurred. Please try again later."
             );
           });
       }
@@ -76,7 +76,7 @@ export default function SignUp() {
         setServerError(
           typeof errMsg === "string"
             ? errMsg
-            : "An unexpected error occurred. Please try again."
+            : "An unexpected error occurred. Please try again later."
         );
       }
       console.error(error);
