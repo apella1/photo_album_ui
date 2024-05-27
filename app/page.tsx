@@ -3,11 +3,19 @@
 import AuthenticatedHome from "@/components/AuthenticatedHome";
 import CustomButton from "@/components/ui/CustomButton";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const token = localStorage.getItem("token");
+
+  // useEffect(() => {
+  //   if (token != null) {
+  //     setIsAuthenticated(true);
+  //   }
+  // }, [token]);
+
   return (
     <>
       {!isAuthenticated ? (
