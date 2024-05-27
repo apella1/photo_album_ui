@@ -13,9 +13,9 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
   const router = useRouter();
-  //   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -36,12 +36,8 @@ export default function Login() {
           if (res.status === 200) {
             const token = res.data.token;
             localStorage.setItem("token", token);
-            // if (location.state && "from" in location.state) {
-            //   const state = location.state as LocationState;
-            //   router.push(state.from);
-            // } else {
-            //   router.push("/");
-            // }
+            setSuccessMsg("Successfully logged in!");
+            router.push("/");
           } else {
             throw new Error("Invalid server response.");
           }
@@ -93,6 +89,10 @@ export default function Login() {
           {error && (
             <p className="text-red-700 text-base text-center">{error}</p>
           )}
+          {successMsg && (
+            <p className="text-red-700 text-base text-center">{error}</p>
+          )}
+
           <TextField
             required
             label="Email Address"

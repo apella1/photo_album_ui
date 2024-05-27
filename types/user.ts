@@ -1,6 +1,7 @@
 export interface UserData {
   first_name: string;
   last_name: string;
+  username: string;
   email: string;
   password: string;
 }
@@ -11,7 +12,7 @@ export interface DBUser {
   updated_at: string;
   first_name: string;
   last_name: string;
+  username: string;
   email: string;
   password: string;
-  profile_image: File | null;
 }

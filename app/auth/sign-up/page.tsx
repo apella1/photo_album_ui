@@ -17,12 +17,7 @@ export default function SignUp() {
   const [successMessage, setSuccessMessage] = useState("");
   const [serverError, setServerError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<UserData>({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState<UserData>({} as UserData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,11 +41,12 @@ export default function SignUp() {
       } else {
         setPasswordError(false);
         await client
-          .post("create_user", formData)
+          .post("register", formData)
           .then(() => {
             setFormData({
               first_name: "",
               last_name: "",
+              username: "",
               email: "",
               password: "",
             });
