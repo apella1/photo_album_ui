@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       {!isAuthenticated ? (
-        <main className="px-8 md:px-16 xl:px-28 2xl:px-44 py-8 lg:h-screen flex flex-col space-y-6 bg-blue-500 text-white">
+        <main className="x-section-padding py-8 lg:h-screen flex flex-col space-y-6 bg-blue-500 text-white">
           <nav className="flex items-center justify-between">
             <Link href={"/"} className="flex items-center space-x-3">
               <FaPhotoFilm className="text-5xl" />
