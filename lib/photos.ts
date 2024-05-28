@@ -11,6 +11,10 @@ export function getPhoto(photoId: string) {
 
 export function createPhoto(formData: PhotoRequest, albumId: string) {
   return client
-    .post(`/albums/${albumId}/photos`, formData)
+    .post(`albums/${albumId}/photos`, formData)
     .then((res) => res.data);
+}
+
+export function getAllPhotos() {
+  return client.get("photos").then((res) => res.data);
 }

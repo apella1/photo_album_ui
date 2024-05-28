@@ -16,3 +16,7 @@ export function createAlbum(formData: AlbumRequest) {
 export function getAllAlbums() {
   return client.get("albums").then((res) => res.data);
 }
+
+export function getAlbumById(albumId: string) {
+  return client.get(`albums/${albumId}`).then((res) => res.data);
+}
