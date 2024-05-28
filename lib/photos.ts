@@ -1,8 +1,13 @@
-import { PhotoRequest } from "@/types/photo";
+import { PhotoRequest, PhotoUpdateData } from "@/types/photo";
 import { client } from "./axios";
 
-export function updatePhotoTitle(photoId: string) {
-  return client.patch(`photos/${photoId}`).then((res) => res.data);
+export function updatePhotoTitle(
+  photoId: string,
+  photoUpdateData: PhotoUpdateData,
+) {
+  return client
+    .patch(`photos/${photoId}`, photoUpdateData)
+    .then((res) => res.data);
 }
 
 export function getPhoto(photoId: string) {

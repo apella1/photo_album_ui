@@ -21,9 +21,9 @@ export default function UserAlbums({ album }: { album: { id: string } }) {
   return (
     <>
       {albumQuery.isLoading ? (
-        <p>Fetching album...</p>
+        <p className="text-xl font-medium">Fetching album...</p>
       ) : albumQuery.isError ? (
-        <p className="text-xl">Album not found.</p>
+        <p className="text-xl font-medium">Album not found.</p>
       ) : (
         <section className="py-8 flex flex-col space-y-6">
           <div className="flex flex-col space-y-2">

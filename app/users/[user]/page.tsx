@@ -27,7 +27,7 @@ export default function User({ user }: { user: { id: string } }) {
   return (
     <>
       {userQuery.isLoading ? (
-        <p>Fetching user...</p>
+        <p className="text-xl font-medium">Fetching user...</p>
       ) : userQuery.isError ? (
         <p className="text-xl">User not found.</p>
       ) : (

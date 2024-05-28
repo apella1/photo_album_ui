@@ -11,3 +11,7 @@ export interface DBPhoto {
   album_id: string;
   body: File;
 }
+
+export interface PhotoUpdateData {
+  title: string;
+}
