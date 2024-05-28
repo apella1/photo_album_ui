@@ -2,22 +2,22 @@
 
 import { useAuthentication } from "@/hooks/useAuthentication";
 import {
-  Box,
-  Tooltip,
-  IconButton,
   Avatar,
+  Box,
+  Divider,
+  IconButton,
+  ListItemIcon,
   Menu,
   MenuItem,
-  Divider,
-  ListItemIcon,
+  Tooltip,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
 
-export default function AuthenticatedHome() {
+export default function UserProfile() {
   const { isAuthenticated, user } = useAuthentication();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -27,6 +27,7 @@ export default function AuthenticatedHome() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const router = useRouter();
 
   return (
@@ -113,19 +114,22 @@ export default function AuthenticatedHome() {
         )}
       </nav>
       <section className="flex flex-col space-y-6">
-        <h2 className="main-title">Users</h2>
+        <h2 className="main-title">My Profile</h2>
         <section>
-          <Link href={`users/${1}`}>
-            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
-              <p>
-                <span className="font-semibold">Name:</span> Peter Len
-              </p>
-              <p>
-                <span className="font-semibold">Number of Albums:</span> 7
-              </p>
-            </div>
-          </Link>
+          <h1>
+            <span className="font-bold">Name:</span> {user?.first_name}{" "}
+            {user?.last_name}
+          </h1>
+          <p>
+            <span className="font-bold">Email:</span> {user?.email}
+          </p>
+          <p>
+            <span className="font-bold">Username:</span> {user?.username}
+          </p>
         </section>
+      </section>
+      <section>
+        <h2 className="main-title">Albums</h2>
       </section>
     </section>
   );

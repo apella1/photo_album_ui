@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { IoIosLogOut } from "react-icons/io";
@@ -31,6 +32,7 @@ export default function UsersLayout({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const router = useRouter();
 
   return (
     <section className="x-section-padding py-8 flex flex-col space-y-12">
@@ -101,7 +103,7 @@ export default function UsersLayout({
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={() => router.push("/profile")}>
                 <Avatar /> My account
               </MenuItem>
               <Divider />
