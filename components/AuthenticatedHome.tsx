@@ -3,8 +3,20 @@
 import Link from "next/link";
 import { FaPhotoFilm } from "react-icons/fa6";
 import AuthenticatedUserMenu from "./AuthenticatedUserMenu";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { getUsers } from "@/lib/users";
+import { DBUser } from "@/types/user";
 
 export default function AuthenticatedHome() {
+  const usersQuery = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+
+  if (usersQuery.status === "error") {
+    return <h1>{JSON.stringify(usersQuery.error)}</h1>;
+  }
+
   return (
     <section className="x-section-padding py-8 flex flex-col space-y-16">
       <nav className="flex items-center justify-between">
@@ -20,16 +32,19 @@ export default function AuthenticatedHome() {
       <section className="flex flex-col space-y-6">
         <h2 className="main-title">Users</h2>
         <section>
-          <Link href={`users/${1}`}>
-            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
-              <p>
-                <span className="font-semibold">Name:</span> Peter Len
-              </p>
-              <p>
-                <span className="font-semibold">Number of Albums:</span> 7
-              </p>
-            </div>
-          </Link>
+          {usersQuery.data.map((user: DBUser) => (
+            <Link href={`users/${1}`} key={user.id}>
+              <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                <p>
+                  <span className="font-semibold">Name:</span> {user.first_name}{" "}
+                  {user.last_name}
+                </p>
+                <p>
+                  <span className="font-semibold">Number of Albums:</span> 7
+                </p>
+              </div>
+            </Link>
+          ))}
         </section>
       </section>
     </section>
