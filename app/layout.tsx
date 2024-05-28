@@ -1,7 +1,9 @@
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import "./globals.css";
+import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <AppRouterCacheProvider>
-        <body className={inter.className}>{children}</body>
-      </AppRouterCacheProvider>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <AppRouterCacheProvider>
+          <body className={inter.className}>{children}</body>
+        </AppRouterCacheProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </html>
+    </ReactQueryClientProvider>
   );
 }
