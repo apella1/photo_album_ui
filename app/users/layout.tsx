@@ -1,3 +1,4 @@
+import { useAuthentication } from "@/hooks/useAuthentication";
 import Link from "next/link";
 import React from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
@@ -7,6 +8,8 @@ export default function UsersLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { user } = useAuthentication();
+
   return (
     <section className="x-section-padding py-8 flex flex-col space-y-12">
       <nav className="flex items-center justify-between">
@@ -18,7 +21,7 @@ export default function UsersLayout({
           </div>
         </Link>
         <div className="flex items-center space-x-3 text-lg">
-          <p className="font-medium">Hello, Peter</p>
+          <p className="font-medium">Hello, ${user?.first_name}</p>
         </div>
       </nav>
       <section>{children}</section>
