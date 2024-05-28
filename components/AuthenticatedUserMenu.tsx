@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 export default function AuthenticatedUserMenu() {
-  const { isAuthenticated, user } = useAuthentication();
+  let { isAuthenticated, user } = useAuthentication();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,6 +26,12 @@ export default function AuthenticatedUserMenu() {
   };
 
   const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    isAuthenticated = false;
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -92,7 +98,7 @@ export default function AuthenticatedUserMenu() {
               <Avatar /> My account
             </MenuItem>
             <Divider />
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <IoIosLogOut />
               </ListItemIcon>
