@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { FaPhotoFilm } from "react-icons/fa6";
 import AuthenticatedUserMenu from "./AuthenticatedUserMenu";
+import { useAuthentication } from "@/hooks/useAuthentication";
 
 export default function AuthenticatedHome() {
   const usersQuery = useQuery({
@@ -17,6 +18,8 @@ export default function AuthenticatedHome() {
     queryKey: ["albums"],
     queryFn: getAllAlbums,
   });
+
+  const { user } = useAuthentication();
 
   return (
     <section className="x-section-padding py-8 flex flex-col space-y-16">
@@ -39,32 +42,37 @@ export default function AuthenticatedHome() {
             <p>No users found.</p>
           ) : (
             <section className="grid grid-cols-4 gap-8">
-              {usersQuery.data.map((user: DBUser) => (
-                <Link href={`users/${user.id}`} key={user.id}>
-                  <div className="flex flex-col space-y-2 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
-                    <p>
-                      <span className="font-semibold">Name:</span>{" "}
-                      {user.first_name} {user.last_name}
-                    </p>
-                    <p className="flex items-center space-x-3">
-                      <span className="font-semibold">Number of Albums:</span>{" "}
-                      {albumsQuery.isLoading ? (
-                        <p>Fetching {`${user.first_name}'s`} albums...</p>
-                      ) : albumsQuery.data.length === 0 ? (
-                        <p>0</p>
-                      ) : (
-                        <p>
-                          {
-                            albumsQuery.data.filter(
-                              (album: DBAlbum) => album.user_id === user.id,
-                            ).length
-                          }
-                        </p>
-                      )}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              {usersQuery.data
+                .filter((fetchedUser: DBUser) => fetchedUser.id != user?.id)
+                .map((fetchedUser: DBUser) => (
+                  <Link href={`users/${fetchedUser.id}`} key={fetchedUser.id}>
+                    <div className="flex flex-col space-y-2 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                      <p>
+                        <span className="font-semibold">Name:</span>{" "}
+                        {fetchedUser.first_name} {fetchedUser.last_name}
+                      </p>
+                      <p className="flex items-center space-x-3">
+                        <span className="font-semibold">Number of Albums:</span>{" "}
+                        {albumsQuery.isLoading ? (
+                          <p>
+                            Fetching {`${fetchedUser.first_name}'s`} albums...
+                          </p>
+                        ) : albumsQuery.data.length === 0 ? (
+                          <p>0</p>
+                        ) : (
+                          <p>
+                            {
+                              albumsQuery.data.filter(
+                                (album: DBAlbum) =>
+                                  album.user_id === fetchedUser.id,
+                              ).length
+                            }
+                          </p>
+                        )}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
             </section>
           )}
         </section>

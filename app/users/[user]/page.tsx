@@ -35,7 +35,7 @@ export default function User({ user }: { user: { id: string } }) {
           <div className="flex flex-col space-y-2">
             <h2 className="sub-title">User Name</h2>
             <p>
-              {userQuery.data.first_name} {userQuery.data.last_name}
+              {userQuery.data?.first_name} {userQuery.data?.last_name}
             </p>
           </div>
           <div className="flex flex-col space-y-2">

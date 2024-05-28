@@ -14,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
+import { MdOutlineSwitchAccount } from "react-icons/md";
 export default function AuthenticatedUserMenu() {
   let { isAuthenticated, user } = useAuthentication();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -94,13 +95,17 @@ export default function AuthenticatedUserMenu() {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           >
-            <MenuItem onClick={() => router.push("/profile")}>
-              <Avatar /> My account
+            <MenuItem
+              onClick={() => router.push("/profile")}
+              className="flex items-center space-x-2"
+            >
+              <MdOutlineSwitchAccount className="text-xl" />
+              <p>My Account</p>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
-                <IoIosLogOut />
+                <IoIosLogOut className="text-xl" />
               </ListItemIcon>
               Logout
             </MenuItem>
