@@ -21,7 +21,7 @@ export default function RootLayout({
     <ReactQueryClientProvider>
       <html lang="en">
         <AppRouterCacheProvider>
-          <body className={`${inter.className} bg-blue-500 text-white`}>
+          <body className={`${inter.className} bg-[#00000f] text-white`}>
             {children}
           </body>
         </AppRouterCacheProvider>

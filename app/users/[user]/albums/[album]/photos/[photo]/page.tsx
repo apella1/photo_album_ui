@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 
-export default function PhotoDetails({ photo }: { photo: { id: string } }) {
+export default function PhotoDetails({ params }: { params: { slug: string } }) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const handleEdit = () => {
@@ -20,12 +20,12 @@ export default function PhotoDetails({ photo }: { photo: { id: string } }) {
 
   const photoQuery = useQuery({
     queryKey: ["photo"],
-    queryFn: () => getPhoto(photo.id),
+    queryFn: () => getPhoto(params.slug),
   });
 
   const handleTitleUpdate = async () => {
     try {
-      const res = await updatePhotoTitle(photo.id, { title: title });
+      const res = await updatePhotoTitle(params.slug, { title: title });
       if (res.status == 200) {
         setTitle(title);
         setEdit(false);

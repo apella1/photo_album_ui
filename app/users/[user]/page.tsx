@@ -8,10 +8,10 @@ import { DBPhoto } from "@/types/photo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-export default function User({ user }: { user: { id: string } }) {
+export default function User({ params }: { params: { slug: string } }) {
   const userQuery = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUserById(user.id),
+    queryFn: () => getUserById(params.slug),
   });
 
   const albumsQuery = useQuery({
@@ -48,14 +48,14 @@ export default function User({ user }: { user: { id: string } }) {
               ) : (
                 <section>
                   {albumsQuery.data?.filter(
-                    (album: DBAlbum) => album?.user_id === user?.id,
+                    (album: DBAlbum) => album?.user_id === params?.slug,
                   ).length == 0 ? (
-                    <p>{userQuery.data.first_name} has no albums yet.</p>
+                    <p>{userQuery.data?.first_name} has no albums yet.</p>
                   ) : (
                     <section>
                       {albumsQuery.data
                         ?.filter(
-                          (album: DBAlbum) => album?.user_id === user?.id,
+                          (album: DBAlbum) => album?.user_id === params?.slug,
                         )
                         .map((album: DBAlbum) => (
                           <Link href={`/users/${1}/albums/${1}`} key={album.id}>

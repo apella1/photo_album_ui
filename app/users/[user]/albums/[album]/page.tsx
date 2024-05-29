@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React from "react";
 
-export default function UserAlbums({ album }: { album: { id: string } }) {
+export default function UserAlbums({ params }: { params: { slug: string } }) {
   const albumQuery = useQuery({
     queryKey: ["user"],
-    queryFn: () => getAlbumById(album.id),
+    queryFn: () => getAlbumById(params.slug),
   });
 
   const photosQuery = useQuery({
