@@ -56,7 +56,7 @@ export default function User() {
                   ).length == 0 ? (
                     <p>{userQuery.data?.first_name} has no albums yet.</p>
                   ) : (
-                    <section>
+                    <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
                       {albumsQuery.data
                         ?.filter((album: DBAlbum) => album?.user_id === userId)
                         .map((album: DBAlbum) => (
@@ -64,7 +64,7 @@ export default function User() {
                             href={`/users/${userId}/albums/${album.id}`}
                             key={album.id}
                           >
-                            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
                               <p>
                                 <span className="font-semibold">Title:</span>
                                 <p>{album.title}</p>

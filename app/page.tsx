@@ -11,11 +11,11 @@ export default function Home() {
   return (
     <>
       {!isAuthenticated ? (
-        <main className="x-section-padding py-8 lg:h-screen flex flex-col space-y-6 bg-[#00000f]  text-white">
+        <main className="x-section-padding py-8 h-screen flex flex-col space-y-6 bg-[#00000f]  text-white">
           <nav className="flex items-center justify-between">
             <Link href={"/"} className="flex items-center space-x-3">
               <FaPhotoFilm className="text-5xl" />
-              <div className="font-bold text-xl">
+              <div className="hidden md:block font-bold text-xl">
                 <h2 className="">Photo Labs</h2>
                 <p className="text-base">Pictures worth 1024 words!</p>
               </div>
@@ -36,11 +36,11 @@ export default function Home() {
             </div>
           </nav>
           <section className="self-center flex flex-col items-center justify-center space-y-8 h-full">
-            <h1 className="text-5xl font-bold flex flex-col space-y-4 justify-center items-center">
+            <h1 className="text-5xl font-bold flex flex-col space-y-4 justify-center items-center text-center">
               <p>View Your Photos & More</p>
               <p>In One Place</p>
             </h1>
-            <p className="text-lg font-medium">
+            <p className="text-lg font-medium text-center lg:px-44 xl:px-60">
               Get an overview of all the users using the application and get
               inspired by their photos. All you need is an account.
             </p>

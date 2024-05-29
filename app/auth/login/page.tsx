@@ -47,7 +47,7 @@ export default function Login() {
           setError(
             typeof errMsg === "string"
               ? errMsg
-              : "An unexpected error occurred. Please try again later."
+              : "An unexpected error occurred. Please try again later.",
           );
         });
     } catch (error: unknown) {
@@ -66,7 +66,7 @@ export default function Login() {
   };
 
   return (
-    <section className="py-16 px-8 md:px-16 2xl:px-28 w-[50%]">
+    <section className="py-16 px-8 md:px-16 2xl:px-28 w-full md:w-[80%] xl:w-[50%]">
       <Stack spacing={4}>
         <Stack spacing={2} className="">
           <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
