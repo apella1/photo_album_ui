@@ -63,7 +63,7 @@ export default function UserProfile() {
               ).length == 0 ? (
                 <p>You don&apos;t have any albums.</p>
               ) : (
-                <section>
+                <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
                   {albumsQuery.data
                     ?.filter((album: DBAlbum) => album?.user_id === user?.id)
                     .map((album: DBAlbum) => (
@@ -71,7 +71,7 @@ export default function UserProfile() {
                         href={`/users/${user?.id}/albums/${album.id}`}
                         key={album.id}
                       >
-                        <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                        <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
                           <p className="flex items-center space-x-3">
                             <span className="font-semibold">Title:</span>
                             <p>{album.title}</p>
