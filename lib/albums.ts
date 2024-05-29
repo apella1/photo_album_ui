@@ -20,3 +20,7 @@ export function getAllAlbums() {
 export function getAlbumById(albumId: string) {
   return client.get(`albums/${albumId}`).then((res) => res.data);
 }
+
+export function deleteAlbum(albumId: string) {
+  return client.delete(`albums/${albumId}`).then((res) => res.data);
+}
