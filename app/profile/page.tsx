@@ -57,7 +57,12 @@ export default function UserProfile() {
           ) : albumsQuery.data.length === 0 ? (
             <section className="flex flex-col space-y-4">
               <p>You don&apos;t have any albums.</p>
-              <Link href={"/users/album/create"}>Create Album</Link>
+              <Link
+                href={"/users/album/create"}
+                className="bg-pink-500 px-16 py-2.5 rounded-xl w-fit"
+              >
+                Create Album
+              </Link>
             </section>
           ) : (
             <section className="">

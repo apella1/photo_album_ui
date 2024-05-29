@@ -1,5 +1,5 @@
 export interface PhotoRequest {
-  title: string;
+  data: FormData;
 }
 
 export interface DBPhoto {
