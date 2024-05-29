@@ -55,49 +55,68 @@ export default function UserProfile() {
           {albumsQuery.isLoading ? (
             <p className="text-xl font-medium">Fetching your albums...</p>
           ) : albumsQuery.data.length === 0 ? (
-            <p>You don&apos;t have any albums.</p>
+            <section className="flex flex-col space-y-4">
+              <p>You don&apos;t have any albums.</p>
+              <Link href={"/users/album/create"}>Create Album</Link>
+            </section>
           ) : (
             <section className="">
               {albumsQuery.data?.filter(
                 (album: DBAlbum) => album?.user_id === user?.id,
               ).length == 0 ? (
-                <p>You don&apos;t have any albums.</p>
+                <section className="flex flex-col space-y-4">
+                  <p>You don&apos;t have any albums.</p>
+                  <Link
+                    href={"/users/album/create"}
+                    className="bg-pink-500 px-16 py-2.5 rounded-xl w-fit"
+                  >
+                    Create Album
+                  </Link>
+                </section>
               ) : (
-                <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
-                  {albumsQuery.data
-                    ?.filter((album: DBAlbum) => album?.user_id === user?.id)
-                    .map((album: DBAlbum) => (
-                      <Link
-                        href={`/users/${user?.id}/albums/${album.id}`}
-                        key={album.id}
-                      >
-                        <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
-                          <p className="flex items-center space-x-3">
-                            <span className="font-semibold">Title:</span>
-                            <p>{album.title}</p>
-                          </p>
-                          <p className="flex items-center space-x-3">
-                            <span className="font-semibold">
-                              Number of Photos:
-                            </span>{" "}
-                            {photosQuery.isLoading ? (
-                              <p>Fetching {`${album.title}'s`} photos...</p>
-                            ) : photosQuery.data.length === 0 ? (
-                              <p>0</p>
-                            ) : (
-                              <p>
-                                {
-                                  photosQuery.data.filter(
-                                    (photo: DBPhoto) =>
-                                      photo.album_id === album.id,
-                                  ).length
-                                }
-                              </p>
-                            )}
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
+                <section className="flex flex-col gap-8">
+                  <Link
+                    href={"/users/album/create"}
+                    className="bg-pink-500 px-8 py-2.5 rounded-xl w-fit"
+                  >
+                    Add Album
+                  </Link>
+                  <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
+                    {albumsQuery.data
+                      ?.filter((album: DBAlbum) => album?.user_id === user?.id)
+                      .map((album: DBAlbum) => (
+                        <Link
+                          href={`/users/${user?.id}/albums/${album.id}`}
+                          key={album.id}
+                        >
+                          <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
+                            <p className="flex items-center space-x-3">
+                              <span className="font-semibold">Title:</span>
+                              <p>{album.title}</p>
+                            </p>
+                            <p className="flex items-center space-x-3">
+                              <span className="font-semibold">
+                                Number of Photos:
+                              </span>{" "}
+                              {photosQuery.isLoading ? (
+                                <p>Fetching {`${album.title}'s`} photos...</p>
+                              ) : photosQuery.data.length === 0 ? (
+                                <p>0</p>
+                              ) : (
+                                <p>
+                                  {
+                                    photosQuery.data.filter(
+                                      (photo: DBPhoto) =>
+                                        photo.album_id === album.id,
+                                    ).length
+                                  }
+                                </p>
+                              )}
+                            </p>
+                          </div>
+                        </Link>
+                      ))}
+                  </section>
                 </section>
               )}
             </section>
