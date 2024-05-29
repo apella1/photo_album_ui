@@ -1,5 +1,5 @@
 export interface PhotoRequest {
-  title: string;
+  data: FormData;
 }
 
 export interface DBPhoto {
@@ -9,6 +9,7 @@ export interface DBPhoto {
   title: string;
   user_id: string;
   album_id: string;
+  image_url: string;
   body: File;
 }
 

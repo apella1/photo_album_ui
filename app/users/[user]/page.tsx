@@ -7,11 +7,15 @@ import { DBAlbum } from "@/types/album";
 import { DBPhoto } from "@/types/photo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
-export default function User({ params }: { params: { slug: string } }) {
+export default function User() {
+  const pathname = usePathname();
+  const userId = pathname.split("/")[2];
+
   const userQuery = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getUserById(params.slug),
+    queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
   });
 
   const albumsQuery = useQuery({
@@ -38,7 +42,7 @@ export default function User({ params }: { params: { slug: string } }) {
               {userQuery.data?.first_name} {userQuery.data?.last_name}
             </p>
           </div>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-4">
             <h2 className="sub-title">Albums</h2>
             <div className="">
               {albumsQuery.isLoading ? (
@@ -48,23 +52,24 @@ export default function User({ params }: { params: { slug: string } }) {
               ) : (
                 <section>
                   {albumsQuery.data?.filter(
-                    (album: DBAlbum) => album?.user_id === params?.slug,
+                    (album: DBAlbum) => album?.user_id === userId,
                   ).length == 0 ? (
                     <p>{userQuery.data?.first_name} has no albums yet.</p>
                   ) : (
-                    <section>
+                    <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
                       {albumsQuery.data
-                        ?.filter(
-                          (album: DBAlbum) => album?.user_id === params?.slug,
-                        )
+                        ?.filter((album: DBAlbum) => album?.user_id === userId)
                         .map((album: DBAlbum) => (
-                          <Link href={`/users/${1}/albums/${1}`} key={album.id}>
-                            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                          <Link
+                            href={`/users/${userId}/albums/${album.id}`}
+                            key={album.id}
+                          >
+                            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
                               <p>
                                 <span className="font-semibold">Title:</span>
                                 <p>{album.title}</p>
                               </p>
-                              <p>
+                              <p className="flex items-center space-x-3">
                                 <span className="font-semibold">
                                   Number of Photos:
                                 </span>{" "}

@@ -23,3 +23,7 @@ export function createPhoto(formData: PhotoRequest, albumId: string) {
 export function getAllPhotos() {
   return client.get("photos").then((res) => res.data);
 }
+
+export function deletePhoto(photoId: string) {
+  return client.delete(`photos/${photoId}`).then((res) => res.data);
+}

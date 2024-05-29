@@ -26,7 +26,7 @@ export default function AuthenticatedHome() {
       <nav className="flex items-center justify-between">
         <Link href={"/"} className="flex items-center space-x-3">
           <FaPhotoFilm className="text-5xl" />
-          <div className="font-bold text-xl">
+          <div className="hidden md:block font-bold text-xl">
             <h2 className="">Photo Labs</h2>
             <p className="text-base">Pictures worth 1024 words!</p>
           </div>
@@ -41,12 +41,12 @@ export default function AuthenticatedHome() {
           ) : usersQuery.data.length === 0 ? (
             <p>No users found.</p>
           ) : (
-            <section className="grid grid-cols-4 gap-8">
+            <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
               {usersQuery.data
                 .filter((fetchedUser: DBUser) => fetchedUser.id != user?.id)
                 .map((fetchedUser: DBUser) => (
                   <Link href={`users/${fetchedUser.id}`} key={fetchedUser.id}>
-                    <div className="flex flex-col space-y-2 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                    <div className="flex flex-col space-y-2 p-4 border border-gray-300 rounded-xl w-full md:w-fit hover:border-blue-400">
                       <p>
                         <span className="font-semibold">Name:</span>{" "}
                         {fetchedUser.first_name} {fetchedUser.last_name}
