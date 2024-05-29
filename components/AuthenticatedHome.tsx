@@ -1,8 +1,26 @@
+import { getAllAlbums } from "@/lib/albums";
+import { getUsers } from "@/lib/users";
+import { DBAlbum } from "@/types/album";
+import { DBUser } from "@/types/user";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
+import AuthenticatedUserMenu from "./AuthenticatedUserMenu";
+import { useAuthentication } from "@/hooks/useAuthentication";
 
 export default function AuthenticatedHome() {
+  const usersQuery = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+
+  const albumsQuery = useQuery({
+    queryKey: ["albums"],
+    queryFn: getAllAlbums,
+  });
+
+  const { user } = useAuthentication();
+
   return (
     <section className="x-section-padding py-8 flex flex-col space-y-16">
       <nav className="flex items-center justify-between">
@@ -13,23 +31,50 @@ export default function AuthenticatedHome() {
             <p className="text-base">Pictures worth 1024 words!</p>
           </div>
         </Link>
-        <div className="">
-          <p className="text-lg">Hello, Peter</p>
-        </div>
+        <AuthenticatedUserMenu />
       </nav>
       <section className="flex flex-col space-y-6">
         <h2 className="main-title">Users</h2>
         <section>
-          <Link href={`users/${1}`}>
-            <div className="flex flex-col space-y-1 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
-              <p>
-                <span className="font-semibold">Name:</span> Peter Len
-              </p>
-              <p>
-                <span className="font-semibold">Number of Albums:</span> 7
-              </p>
-            </div>
-          </Link>
+          {usersQuery.isLoading ? (
+            <p>Loading users...</p>
+          ) : usersQuery.data.length === 0 ? (
+            <p>No users found.</p>
+          ) : (
+            <section className="grid grid-cols-4 gap-8">
+              {usersQuery.data
+                .filter((fetchedUser: DBUser) => fetchedUser.id != user?.id)
+                .map((fetchedUser: DBUser) => (
+                  <Link href={`users/${fetchedUser.id}`} key={fetchedUser.id}>
+                    <div className="flex flex-col space-y-2 p-4 border border-gray-300 rounded-xl w-fit hover:border-blue-400">
+                      <p>
+                        <span className="font-semibold">Name:</span>{" "}
+                        {fetchedUser.first_name} {fetchedUser.last_name}
+                      </p>
+                      <p className="flex items-center space-x-3">
+                        <span className="font-semibold">Number of Albums:</span>{" "}
+                        {albumsQuery.isLoading ? (
+                          <p>
+                            Fetching {`${fetchedUser.first_name}'s`} albums...
+                          </p>
+                        ) : albumsQuery.data.length === 0 ? (
+                          <p>0</p>
+                        ) : (
+                          <p>
+                            {
+                              albumsQuery.data.filter(
+                                (album: DBAlbum) =>
+                                  album.user_id === fetchedUser.id,
+                              ).length
+                            }
+                          </p>
+                        )}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+            </section>
+          )}
         </section>
       </section>
     </section>

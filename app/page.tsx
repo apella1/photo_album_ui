@@ -2,24 +2,16 @@
 
 import AuthenticatedHome from "@/components/AuthenticatedHome";
 import CustomButton from "@/components/ui/CustomButton";
+import { useAuthentication } from "@/hooks/useAuthentication";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const token = localStorage.getItem("token");
-
-  // useEffect(() => {
-  //   if (token != null) {
-  //     setIsAuthenticated(true);
-  //   }
-  // }, [token]);
-
+  const { isAuthenticated } = useAuthentication();
   return (
     <>
       {!isAuthenticated ? (
-        <main className="x-section-padding py-8 lg:h-screen flex flex-col space-y-6 bg-blue-500 text-white">
+        <main className="x-section-padding py-8 lg:h-screen flex flex-col space-y-6 bg-[#00000f]  text-white">
           <nav className="flex items-center justify-between">
             <Link href={"/"} className="flex items-center space-x-3">
               <FaPhotoFilm className="text-5xl" />

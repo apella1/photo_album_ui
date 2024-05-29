@@ -1,3 +1,6 @@
+"use client";
+
+import AuthenticatedUserMenu from "@/components/AuthenticatedUserMenu";
 import Link from "next/link";
 import React from "react";
 import { FaPhotoFilm } from "react-icons/fa6";
@@ -17,9 +20,7 @@ export default function UsersLayout({
             <p className="text-base">Pictures worth 1024 words!</p>
           </div>
         </Link>
-        <div className="flex items-center space-x-3 text-lg">
-          <p className="font-medium">Hello, Peter</p>
-        </div>
+        <AuthenticatedUserMenu />
       </nav>
       <section>{children}</section>
     </section>
