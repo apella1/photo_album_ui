@@ -3,10 +3,14 @@
 import { getPhoto, updatePhotoTitle } from "@/lib/photos";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 
-export default function PhotoDetails({ params }: { params: { slug: string } }) {
+export default function PhotoDetails() {
+  const pathname = usePathname();
+  const photoId = pathname.split("/")[6];
+
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState("");
   const handleEdit = () => {
@@ -19,13 +23,13 @@ export default function PhotoDetails({ params }: { params: { slug: string } }) {
   };
 
   const photoQuery = useQuery({
-    queryKey: ["photo"],
-    queryFn: () => getPhoto(params.slug),
+    queryKey: ["photo", photoId],
+    queryFn: () => getPhoto(photoId),
   });
 
   const handleTitleUpdate = async () => {
     try {
-      const res = await updatePhotoTitle(params.slug, { title: title });
+      const res = await updatePhotoTitle(photoId, { title: title });
       if (res.status == 200) {
         setTitle(title);
         setEdit(false);

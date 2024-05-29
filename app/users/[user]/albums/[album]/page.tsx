@@ -5,12 +5,16 @@ import { getAllPhotos } from "@/lib/photos";
 import { DBPhoto } from "@/types/photo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function UserAlbums({ params }: { params: { slug: string } }) {
+export default function UserAlbums() {
+  const pathname = usePathname();
+  const albumId = pathname.split("/")[4];
+
   const albumQuery = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getAlbumById(params.slug),
+    queryKey: ["album", albumId],
+    queryFn: () => getAlbumById(albumId),
   });
 
   const photosQuery = useQuery({
@@ -31,7 +35,7 @@ export default function UserAlbums({ params }: { params: { slug: string } }) {
             <p>{albumQuery.data.title}</p>
           </div>
           <div className="flex flex-col space-y-2">
-            <h2 className="sub-title">Albums</h2>
+            <h2 className="sub-title">Photos</h2>
             <div className="">
               {photosQuery.isLoading ? (
                 <p>Fetching album&apos;s photos...</p>
