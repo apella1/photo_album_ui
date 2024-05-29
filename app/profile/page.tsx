@@ -54,7 +54,7 @@ export default function UserProfile() {
         <div className="">
           {albumsQuery.isLoading ? (
             <p className="text-xl font-medium">Fetching your albums...</p>
-          ) : albumsQuery.data.length === 0 ? (
+          ) : albumsQuery.data?.length === 0 ? (
             <section className="flex flex-col space-y-4">
               <p>You don&apos;t have any albums.</p>
               <Link

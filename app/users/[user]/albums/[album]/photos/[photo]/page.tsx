@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { client } from "@/lib/axios";
 import { deletePhoto, getPhoto, updatePhotoTitle } from "@/lib/photos";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";

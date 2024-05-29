@@ -2,14 +2,17 @@
 
 import RenderImages from "@/components/RenderImages";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { getAlbumById } from "@/lib/albums";
+import { deleteAlbum, getAlbumById } from "@/lib/albums";
 import { getAllPhotos } from "@/lib/photos";
 import { DBPhoto } from "@/types/photo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function UserAlbums() {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const router = useRouter();
   const { user } = useAuthentication();
   const pathname = usePathname();
   const albumId = pathname.split("/")[4];
@@ -24,6 +27,20 @@ export default function UserAlbums() {
     queryFn: getAllPhotos,
   });
 
+  const handleDelete = async () => {
+    setIsDeleteLoading(true);
+    try {
+      const res = await deleteAlbum(albumId);
+      if (res.status === 200) {
+        router.push(`/users/${user?.id}/albums`);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  };
+
   return (
     <>
       {albumQuery.isLoading ? (
@@ -32,10 +49,21 @@ export default function UserAlbums() {
         <p className="text-xl font-medium">Album not found.</p>
       ) : (
         <section className="py-8 flex flex-col space-y-6">
-          <div className="flex flex-col space-y-2">
-            <h2 className="sub-title">Album Name</h2>
-            <p>{albumQuery.data.title}</p>
-          </div>
+          <section className="flex justify-between items-center">
+            <div className="flex flex-col space-y-2">
+              <h2 className="sub-title">Album Name</h2>
+              <p>{albumQuery.data.title}</p>
+            </div>
+            {user?.id === albumQuery.data?.user_id && (
+              <button
+                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg"
+                onClick={handleDelete}
+                disabled={isDeleteLoading}
+              >
+                Delete Album
+              </button>
+            )}
+          </section>
           <div className="flex flex-col space-y-2">
             <h2 className="sub-title">Photos</h2>
             <div className="">
