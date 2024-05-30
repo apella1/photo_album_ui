@@ -14,6 +14,8 @@
 
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [React](https://reactjs.org/)
+- [React Icons](https://react-icons.github.io/react-icons/)
 - [PostCSS](https://postcss.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [ESLint](https://eslint.org/)
@@ -24,3 +26,4 @@
 - [Vitest](https://vitest.dev/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [Material UI](https://mui.com/)
+- [GitHub Actions](https://github.com/features/actions)
