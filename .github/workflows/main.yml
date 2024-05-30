@@ -1,0 +1,35 @@
+name: Run Tests and Prevent Merge to Main on Failure
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  prevent-merge:
+    runs-on: ubuntu-latest
+    if: failure()
+
+    steps:
+      - name: Prevent merge to main branch on failure
+        run: |
+          echo "Tests failed. Merging to the main branch is not allowed."
+          exit 1
