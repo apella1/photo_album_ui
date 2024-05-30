@@ -9,8 +9,10 @@ const getToken = () => {
 };
 
 export const client = axios.create({
-  baseURL: "http://localhost:8000/api/v1/",
+  baseURL: process.env.BASE_URL,
 });
+
+console.log(process.env.BASE_URL);
 
 client.interceptors.request.use(
   (config) => {
