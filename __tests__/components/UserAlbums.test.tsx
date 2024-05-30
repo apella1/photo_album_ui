@@ -1,11 +1,10 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import UserAlbums from "@/app/users/[user]/albums/[album]/page";
-import { useQuery } from "@tanstack/react-query";
 import { useAuthentication } from "@/hooks/useAuthentication";
+import { useQuery } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
 import { usePathname, useRouter } from "next/navigation";
 // @ts-ignore
 import { vi } from "vitest";
-import { deleteAlbum } from "@/lib/albums";
 
 vi.mock("@/lib/albums", () => ({
   deleteAlbum: vi.fn(),
