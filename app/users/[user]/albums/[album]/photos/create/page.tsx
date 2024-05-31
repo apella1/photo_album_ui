@@ -43,7 +43,7 @@ export default function UploadPhoto() {
     },
     onSuccess: () => {
       toast.success("Photo uploaded successfully.");
-      queryClient.invalidateQueries({ queryKey: ["photos", "albums"] });
+      queryClient.invalidateQueries({ queryKey: ["photos", albumId] });
       setIsLoading(false);
       router.push(`/users/${userId}/albums/${albumId}`);
     },

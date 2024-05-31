@@ -2,8 +2,7 @@
 
 import RenderImages from "@/components/RenderImages";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { deleteAlbum, getAlbumById } from "@/lib/albums";
-import { getAllPhotos } from "@/lib/photos";
+import { deleteAlbum, getAlbumById, getAlbumPhotos } from "@/lib/albums";
 import { DBPhoto } from "@/types/photo";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
@@ -25,8 +24,8 @@ export default function UserAlbums() {
   });
 
   const photosQuery = useQuery({
-    queryKey: ["photos"],
-    queryFn: getAllPhotos,
+    queryKey: ["photos", albumId],
+    queryFn: () => getAlbumPhotos(albumId),
   });
 
   const albumDelete = useMutation({
