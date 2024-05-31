@@ -1,12 +1,15 @@
 "use client";
 
+import { createAlbum } from "@/lib/albums";
 import { client } from "@/lib/axios";
 import { TextField } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function CreateAlbum() {
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,20 +18,24 @@ export default function CreateAlbum() {
 
   const router = useRouter();
 
+  const albumCreate = useMutation({
+    mutationFn: () => createAlbum({ title: title }),
+    onSuccess: () => {
+      toast.success("Album created successfully.");
+      router.push("/profile");
+      queryClient.invalidateQueries({ queryKey: ["albums"] });
+      setIsLoading(false);
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error("Error creating photo!");
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
-      const res = await client.post("/albums", { title: title });
-      if (res.status === 201) {
-        toast.success("Album created successfully.");
-        router.push("/profile");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    albumCreate.mutate();
   };
 
   return (

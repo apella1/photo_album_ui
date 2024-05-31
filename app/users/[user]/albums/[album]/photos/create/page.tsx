@@ -2,11 +2,13 @@
 
 import { client } from "@/lib/axios";
 import { TextField } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UploadPhoto() {
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -26,31 +28,36 @@ export default function UploadPhoto() {
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const data = new FormData();
+  const createPhoto = useMutation({
+    mutationFn: async (data: FormData) => {
       data.append("title", title);
       if (file) {
         data.append("photo", file);
       }
 
-      const res = await client.post(`/albums/${albumId}/photos`, data, {
+      await client.post(`/albums/${albumId}/photos`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (res.status === 201) {
-        toast.success("Photo uploaded successfully.");
-        router.push(`/users/${userId}/albums/${albumId}`);
-      }
-    } catch (error: any) {
+    },
+    onSuccess: () => {
+      toast.success("Photo uploaded successfully.");
+      queryClient.invalidateQueries({ queryKey: ["photos", "albums"] });
+      setIsLoading(false);
+      router.push(`/users/${userId}/albums/${albumId}`);
+    },
+    onError: (error) => {
       setError(error.message as string);
       console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+      toast.error(error.message as string);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    createPhoto.mutate(new FormData(e.currentTarget));
   };
 
   return (
