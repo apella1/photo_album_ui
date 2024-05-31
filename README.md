@@ -5,6 +5,8 @@
 - Run `pnpm install` to install dependencies
 - Run `pnpm dev` to start the development server
 - Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Run `pnpm test` to run the test suite
+- Run `pnpm test:ui` to run an interactive UI test view using VitestUI
 
 ## Deployment
 
