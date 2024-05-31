@@ -88,19 +88,21 @@ export default function PhotoDetails() {
         <p className="text-xl">Photo not found.</p>
       ) : (
         <section className="p-8 flex flex-col gap-12 border border-gray-300 lg:h-[80vh] rounded-xl">
-          <section className="flex items-center justify-center space-x-32">
-            <div className="self-center flex items-center space-x-3">
-              <h2 className="sub-title">Title: </h2>
-              {edit === false ? (
-                <p className="text-lg">{photoQuery.data?.title}</p>
-              ) : (
-                <input
-                  value={title}
-                  onChange={handleTitleChange}
-                  name="title"
-                  className="border border-gray-300 py-1.5 px-2 text-black placeholder:text-black"
-                />
-              )}
+          <section className="flex flex-col space-y-5 md:space-y-0 items-center md:flex-row md:items-center md:justify-center md:space-x-32">
+            <div className="self-center flex flex-col items-center space-y-2 lg:space-y-0 lg:flex-row lg:items-center lg:space-x-3">
+              <div className="flex items-center space-x-3">
+                <h2 className="sub-title">Title: </h2>
+                {edit === false ? (
+                  <p className="text-lg">{photoQuery.data?.title}</p>
+                ) : (
+                  <input
+                    value={title}
+                    onChange={handleTitleChange}
+                    name="title"
+                    className="border border-gray-300 py-1.5 px-2 text-black placeholder:text-black"
+                  />
+                )}
+              </div>
               {user?.id === photoQuery.data?.user_id && edit === false && (
                 <div
                   className="flex items-center space-x-1 cursor-pointer"
@@ -122,7 +124,7 @@ export default function PhotoDetails() {
             </div>
             {user?.id === photoQuery.data?.user_id && (
               <button
-                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg"
+                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg w-fit"
                 onClick={handleDelete}
                 disabled={isDeleteLoading}
               >
