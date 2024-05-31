@@ -9,6 +9,14 @@
 ## Deployment
 
 - [Deployment Link](https://pt-album.vercel.app/)
+- For quick exploration you can use the following credentials:
+  - Email: `johndoe@gmail.com`
+  - Password: `password1234`
+- Alternatively, you can create an account by signing up for an account.
+
+## Backend Repository
+
+- [Backend Repository](https://github.com/apella1/photo_album_go)
 
 ## Technologies Used
 
