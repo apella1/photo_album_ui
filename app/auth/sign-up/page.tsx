@@ -91,15 +91,6 @@ export default function SignUp() {
   return (
     <section className="py-16 px-8 md:px-16 2xl:px-28 w-full md:w-[80%] xl:w-[50%]">
       <Stack spacing={4}>
-        <Stack spacing={2} className="">
-          <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
-            <FcGoogle className="text-2xl" />
-            <p>Sign Up With Google</p>
-          </div>
-        </Stack>
-        <div className="flex flex-col">
-          <p className="self-center text-gray-600">or</p>
-        </div>
         <form
           action=""
           className="flex flex-col space-y-4 w-full"
