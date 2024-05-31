@@ -1,7 +1,7 @@
 import PhotoDetails from "@/app/users/[user]/albums/[album]/photos/[photo]/page";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { deletePhoto, updatePhotoTitle } from "@/lib/photos";
-import { useQuery } from "@tanstack/react-query";
+import { deletePhoto } from "@/lib/photos";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { usePathname, useRouter } from "next/navigation";
 // @ts-ignore
@@ -24,6 +24,8 @@ vi.mock("@/lib/photos", () => ({
 
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn(),
+  useMutation: vi.fn(),
+  useQueryClient: vi.fn(),
 }));
 
 describe("PhotoDetails component", () => {
@@ -40,6 +42,9 @@ describe("PhotoDetails component", () => {
     vi.mocked(useAuthentication).mockReturnValue({ user: mockUser });
     vi.mocked(usePathname).mockReturnValue("/users/1/albums/1/photos/1");
     vi.mocked(useRouter).mockReturnValue({ push: vi.fn() });
+    vi.mocked(useQueryClient).mockReturnValue({
+      invalidateQueries: vi.fn(),
+    });
   });
 
   it("renders loading state when fetching photo", () => {
@@ -78,7 +83,6 @@ describe("PhotoDetails component", () => {
     expect(screen.getByText("Photo Title")).toBeInTheDocument();
     expect(screen.getByAltText("Photo Title")).toBeInTheDocument();
   });
-
   it("handles the photo deletion correctly", async () => {
     const mockRouterPush = vi.fn();
     vi.mocked(useRouter).mockReturnValue({ push: mockRouterPush });
@@ -87,6 +91,13 @@ describe("PhotoDetails component", () => {
       isError: false,
       data: mockPhoto,
     });
+
+    // @ts-ignore
+    vi.mocked(useMutation).mockImplementation(({ onSuccess }) => ({
+      mutate: async () => {
+        await onSuccess();
+      },
+    }));
 
     render(<PhotoDetails />);
 
