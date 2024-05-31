@@ -11,7 +11,7 @@
 ## Deployment
 
 - [Deployment Link](https://pt-album.vercel.app/)
-- For quick exploration you can use the following credentials:
+- For quick exploration, you can use the following credentials:
   - Email: `johndoe@gmail.com`
   - Password: `password1234`
 - Alternatively, you can create an account by signing up for an account.
@@ -40,12 +40,12 @@
 
 ## Screenshots
 
-[Home Main](@/public/screenshots/unauthenticated-home.png)
-[Create Album](@/public/screenshots/create-album.png)
-[Upload Photo](@/public/screenshots/upload-photo.png)
-[Upload Photo Success](@/public/screenshots/upload-photo-success.png)
-[User Profile](@/public/screenshots/user-profile-view.png)
-[User Profile Menu](@/public/screenshots/user-profile-menu.png)
-[User Album Photos](@/public/screenshots/user-album-photos.png)
-[User Photo View](@/public/screenshots/user_photo_page.png)
-[User Photo Edit View](@/public/screenshots/user-photo-edit-title.png)
+![Home Main](@/public/screenshots/unauthenticated-home.png)
+![Create Album](@/public/screenshots/create-album.png)
+![Upload Photo](@/public/screenshots/upload-photo.png)
+![Upload Photo Success](@/public/screenshots/upload-photo-success.png)
+![User Profile](@/public/screenshots/user-profile-view.png)
+![User Profile Menu](@/public/screenshots/user-profile-menu.png)
+![User Album Photos](@/public/screenshots/user-album-photos.png)
+![User Photo View](@/public/screenshots/user_photo_page.png)
+![User Photo Edit View](@/public/screenshots/user-photo-edit-title.png)
