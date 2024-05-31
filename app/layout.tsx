@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryClientProvider from "@/components/ReactQueryClientProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <body className={`${inter.className} bg-[#00000f] text-white`}>
             {children}
+            <Toaster position="top-center" />
           </body>
         </AppRouterCacheProvider>
         <ReactQueryDevtools initialIsOpen={false} />

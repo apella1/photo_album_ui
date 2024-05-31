@@ -2,15 +2,16 @@
 
 import RenderImages from "@/components/RenderImages";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { deleteAlbum, getAlbumById } from "@/lib/albums";
-import { getAllPhotos } from "@/lib/photos";
+import { deleteAlbum, getAlbumById, getAlbumPhotos } from "@/lib/albums";
 import { DBPhoto } from "@/types/photo";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function UserAlbums() {
+  const queryClient = useQueryClient();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const router = useRouter();
   const { user } = useAuthentication();
@@ -23,22 +24,27 @@ export default function UserAlbums() {
   });
 
   const photosQuery = useQuery({
-    queryKey: ["photos"],
-    queryFn: getAllPhotos,
+    queryKey: ["photos", albumId],
+    queryFn: () => getAlbumPhotos(albumId),
+  });
+
+  const albumDelete = useMutation({
+    mutationFn: () => deleteAlbum(albumId),
+    onSuccess: () => {
+      toast.success("Album deleted successfully.");
+      queryClient.invalidateQueries({ queryKey: ["albums"] });
+      router.push(`/users/${user?.id}`);
+      setIsDeleteLoading(false);
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error("Error deleting album!");
+    },
   });
 
   const handleDelete = async () => {
     setIsDeleteLoading(true);
-    try {
-      const res = await deleteAlbum(albumId);
-      if (res.status === 200) {
-        router.push(`/users/${user?.id}/albums`);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleteLoading(false);
-    }
+    albumDelete.mutate();
   };
 
   return (

@@ -1,15 +1,17 @@
 "use client";
 
-import { getAllAlbums } from "@/lib/albums";
+import { useAuthentication } from "@/hooks/useAuthentication";
+import { getUserAlbums } from "@/lib/albums";
 import { getAllPhotos } from "@/lib/photos";
 import { getUserById } from "@/lib/users";
 import { DBAlbum } from "@/types/album";
 import { DBPhoto } from "@/types/photo";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function User() {
+  const { user } = useAuthentication();
   const pathname = usePathname();
   const userId = pathname.split("/")[2];
 
@@ -19,8 +21,8 @@ export default function User() {
   });
 
   const albumsQuery = useQuery({
-    queryKey: ["albums"],
-    queryFn: getAllAlbums,
+    queryKey: ["albums", userId],
+    queryFn: () => getUserAlbums(userId),
   });
 
   const photosQuery = useQuery({
@@ -46,15 +48,29 @@ export default function User() {
             <h2 className="sub-title">Albums</h2>
             <div className="">
               {albumsQuery.isLoading ? (
-                <p>Fetching {`${userQuery.data.first_name}'s`} albums...</p>
+                <p>
+                  Fetching{" "}
+                  {user?.id === userId
+                    ? "your"
+                    : `${userQuery.data.first_name}'s`}{" "}
+                  albums...
+                </p>
               ) : albumsQuery.data.length === 0 ? (
-                <p>{userQuery.data.first_name} has no albums yet.</p>
+                <div>
+                  {user?.id === userQuery.data.id
+                    ? "You have no albums yet. Go to your profile to add albums."
+                    : `${userQuery.data.first_name} has no albums yet.`}
+                </div>
               ) : (
                 <section>
                   {albumsQuery.data?.filter(
                     (album: DBAlbum) => album?.user_id === userId,
                   ).length == 0 ? (
-                    <p>{userQuery.data?.first_name} has no albums yet.</p>
+                    <p>
+                      {user?.id === userQuery.data.id
+                        ? "You have no albums yet. Go to your profile to add albums."
+                        : `${userQuery.data.first_name} has no albums yet.`}
+                    </p>
                   ) : (
                     <section className="flex flex-col gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8">
                       {albumsQuery.data

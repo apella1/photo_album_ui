@@ -2,13 +2,15 @@
 
 import { useAuthentication } from "@/hooks/useAuthentication";
 import { deletePhoto, getPhoto, updatePhotoTitle } from "@/lib/photos";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 
 export default function PhotoDetails() {
+  const queryClient = useQueryClient();
   const { user } = useAuthentication();
   const pathname = usePathname();
   const photoId = pathname.split("/")[6];
@@ -20,7 +22,7 @@ export default function PhotoDetails() {
   const router = useRouter();
 
   const [edit, setEdit] = useState(false);
-  const [title, setTitle] = useState(photoQuery.data?.title);
+  const [title, setTitle] = useState("");
   const handleEdit = () => {
     setEdit(true);
   };
@@ -33,34 +35,49 @@ export default function PhotoDetails() {
     setTitle(value);
   };
 
+  useEffect(() => {
+    if (photoQuery.data?.title) {
+      setTitle(photoQuery.data.title);
+    }
+  }, [photoQuery.data?.title]);
+
+  const titleUpdate = useMutation({
+    mutationFn: () => updatePhotoTitle(photoId, { title: title }),
+    onSuccess: () => {
+      toast.success("Photo title updated successfully.");
+      setTitle(title);
+      setEdit(false);
+      queryClient.invalidateQueries({ queryKey: ["photo", photoId] });
+      setIsUpdateLoading(false);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error updating photo!");
+    },
+  });
+
   const handleTitleUpdate = async () => {
     setIsUpdateLoading(true);
-    try {
-      const res = await updatePhotoTitle(photoId, { title: title });
-      if (res.status == 200) {
-        setTitle(title);
-        setEdit(false);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsUpdateLoading(false);
-    }
+    titleUpdate.mutate();
   };
+
+  const photoDelete = useMutation({
+    mutationFn: () => deletePhoto(photoId),
+    onSuccess: () => {
+      toast.success("Photo deleted successfully.");
+      setIsDeleteLoading(false);
+      router.push(`/users/${user?.id}/albums/${photoQuery.data?.album_id}`);
+      queryClient.invalidateQueries({ queryKey: ["photos"] });
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Error deleting photo!");
+    },
+  });
 
   const handleDelete = async () => {
     setIsDeleteLoading(true);
-    try {
-      const res = await deletePhoto(photoId);
-      if (res.status == 200) {
-        setEdit(false);
-        router.push(`/users/${user?.id}/albums/${photoQuery.data?.album_id}`);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleteLoading(false);
-    }
+    photoDelete.mutate();
   };
 
   return (
@@ -71,19 +88,21 @@ export default function PhotoDetails() {
         <p className="text-xl">Photo not found.</p>
       ) : (
         <section className="p-8 flex flex-col gap-12 border border-gray-300 lg:h-[80vh] rounded-xl">
-          <section className="flex items-center justify-center space-x-32">
-            <div className="self-center flex items-center space-x-3">
-              <h2 className="sub-title">Title: </h2>
-              {edit === false ? (
-                <p className="text-lg">{photoQuery.data?.title}</p>
-              ) : (
-                <input
-                  value={title}
-                  onChange={handleTitleChange}
-                  name="title"
-                  className="border border-gray-300 py-1.5 px-2 text-black placeholder:text-black"
-                />
-              )}
+          <section className="flex flex-col space-y-5 md:space-y-0 items-center md:flex-row md:items-center md:justify-center md:space-x-32">
+            <div className="self-center flex flex-col items-center space-y-2 lg:space-y-0 lg:flex-row lg:items-center lg:space-x-3">
+              <div className="flex items-center space-x-3">
+                <h2 className="sub-title">Title: </h2>
+                {edit === false ? (
+                  <p className="text-lg">{photoQuery.data?.title}</p>
+                ) : (
+                  <input
+                    value={title}
+                    onChange={handleTitleChange}
+                    name="title"
+                    className="border border-gray-300 py-1.5 px-2 text-black placeholder:text-black"
+                  />
+                )}
+              </div>
               {user?.id === photoQuery.data?.user_id && edit === false && (
                 <div
                   className="flex items-center space-x-1 cursor-pointer"
@@ -105,7 +124,7 @@ export default function PhotoDetails() {
             </div>
             {user?.id === photoQuery.data?.user_id && (
               <button
-                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg"
+                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg w-fit"
                 onClick={handleDelete}
                 disabled={isDeleteLoading}
               >

@@ -22,6 +22,8 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn(),
+  useMutation: vi.fn(),
+  useQueryClient: vi.fn(),
 }));
 
 vi.mock("@/hooks/useAuthentication", () => ({
