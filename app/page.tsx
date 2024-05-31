@@ -28,7 +28,7 @@ export default function Home() {
                 Log in
               </Link>
               <Link
-                href={"/auth/login"}
+                href={"/auth/sign-up"}
                 className="text-lg hover:underline hover:underline-offset-4"
               >
                 Sign Up

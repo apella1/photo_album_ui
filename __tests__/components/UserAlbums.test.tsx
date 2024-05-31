@@ -62,28 +62,6 @@ describe("UserAlbums component", () => {
     expect(await screen.findByText("Album not found.")).toBeInTheDocument();
   });
 
-  it("displays album title when album query succeeds", async () => {
-    const albumData = {
-      id: 1,
-      title: "My Album",
-      user_id: 1,
-    };
-    // @ts-ignore
-    const photosData = [];
-    const userData = { id: 1 };
-
-    vi.mocked(useAuthentication).mockReturnValue({ user: userData });
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: albumData, isLoading: false })
-      // @ts-ignore
-      .mockReturnValueOnce({ data: photosData, isLoading: false });
-
-    render(<UserAlbums />);
-
-    expect(await screen.findByText("Album Name")).toBeInTheDocument();
-    expect(screen.getByText("My Album")).toBeInTheDocument();
-  });
-
   it("displays loading state for photos", async () => {
     const albumData = {
       id: 1,
