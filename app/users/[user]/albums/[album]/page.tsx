@@ -55,14 +55,14 @@ export default function UserAlbums() {
         <p className="text-xl font-medium">Album not found.</p>
       ) : (
         <section className="py-8 flex flex-col space-y-6">
-          <section className="flex justify-between items-center">
-            <div className="flex flex-col space-y-2">
-              <h2 className="sub-title">Album Name</h2>
+          <section className="flex flex-col space-y-4 md:flex-row md:justify-between md:items-center">
+            <div className="flex items-center space-x-3">
+              <h2 className="sub-title">Album Name: </h2>
               <p>{albumQuery.data.title}</p>
             </div>
             {user?.id === albumQuery.data?.user_id && (
               <button
-                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg"
+                className="px-6 py-1.5 bg-pink-500 text-white rounded-lg w-fit"
                 onClick={handleDelete}
                 disabled={isDeleteLoading}
               >
