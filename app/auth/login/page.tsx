@@ -73,10 +73,6 @@ export default function Login() {
             <FcGoogle className="text-2xl" />
             <p>Log In With Google</p>
           </div>
-          <div className="w-full py-3 flex items-center space-x-6 justify-center border border-gray-200">
-            <FaGithub className="text-2xl" />
-            <p>Log In With GitHub</p>
-          </div>
         </Stack>
         <div className="flex flex-col">
           <p className="self-center text-gray-600">or</p>
