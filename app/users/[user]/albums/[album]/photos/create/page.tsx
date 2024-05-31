@@ -48,9 +48,10 @@ export default function UploadPhoto() {
       router.push(`/users/${userId}/albums/${albumId}`);
     },
     onError: (error) => {
-      setError(error.message as string);
-      console.error(error);
-      toast.error(error.message as string);
+      setError("File size exceeds 400KB limit!");
+      console.error(error.message);
+      setIsLoading(false);
+      toast.error("File size exceeds 400KB limit!");
     },
   });
 
