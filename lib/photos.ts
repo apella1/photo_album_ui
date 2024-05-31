@@ -5,9 +5,7 @@ export function updatePhotoTitle(
   photoId: string,
   photoUpdateData: PhotoUpdateData,
 ) {
-  return client
-    .patch(`photos/${photoId}`, photoUpdateData)
-    .then((res) => res.data);
+  return client.patch(`photos/${photoId}`, photoUpdateData);
 }
 
 export function getPhoto(photoId: string) {

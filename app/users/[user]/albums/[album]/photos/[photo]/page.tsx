@@ -5,7 +5,7 @@ import { deletePhoto, getPhoto, updatePhotoTitle } from "@/lib/photos";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 
@@ -21,7 +21,7 @@ export default function PhotoDetails() {
   const router = useRouter();
 
   const [edit, setEdit] = useState(false);
-  const [title, setTitle] = useState(photoQuery.data?.title);
+  const [title, setTitle] = useState("");
   const handleEdit = () => {
     setEdit(true);
   };
@@ -33,6 +33,12 @@ export default function PhotoDetails() {
     const value = e.target.value;
     setTitle(value);
   };
+
+  useEffect(() => {
+    if (photoQuery.data?.title) {
+      setTitle(photoQuery.data.title);
+    }
+  }, [photoQuery.data?.title]);
 
   const handleTitleUpdate = async () => {
     setIsUpdateLoading(true);
@@ -55,6 +61,7 @@ export default function PhotoDetails() {
     try {
       const res = await deletePhoto(photoId);
       if (res.status == 200) {
+        toast.success("Photo deleted successfully.");
         setEdit(false);
         router.push(`/users/${user?.id}/albums/${photoQuery.data?.album_id}`);
       }
