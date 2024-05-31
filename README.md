@@ -40,12 +40,38 @@
 
 ## Screenshots
 
+### Home Page For Unauthenticated Users
+
 ![Home Main](public/screenshots/unauthenticated-home.png)
+
+### Create Album Page
+
 ![Create Album](public/screenshots/create-album.png)
+
+### Upload Photo Page
+
 ![Upload Photo](public/screenshots/upload-photo.png)
+
+### Upload Photo Success Toast
+
 ![Upload Photo Success](public/screenshots/upload-photo-success.png)
+
+### User Profile Page
+
 ![User Profile](public/screenshots/user-profile-view.png)
+
+### User Profile Page Menu Open
+
 ![User Profile Menu](public/screenshots/user-profile-menu.png)
+
+### User Album Details Page
+
 ![User Album Photos](public/screenshots/user-album-photos.png)
+
+### User Photo Details Page
+
 ![User Photo View](public/screenshots/user_photo_page.png)
+
+### User Photo Details Page Active Edit
+
 ![User Photo Edit View](public/screenshots/user-photo-edit-title.png)
