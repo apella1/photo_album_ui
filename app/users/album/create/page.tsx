@@ -4,6 +4,7 @@ import { client } from "@/lib/axios";
 import { TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function CreateAlbum() {
   const [title, setTitle] = useState("");
@@ -20,6 +21,7 @@ export default function CreateAlbum() {
     try {
       const res = await client.post("/albums", { title: title });
       if (res.status === 201) {
+        toast.success("Album created successfully.");
         router.push("/profile");
       }
     } catch (error) {

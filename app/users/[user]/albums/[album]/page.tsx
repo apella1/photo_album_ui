@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function UserAlbums() {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -33,6 +34,7 @@ export default function UserAlbums() {
       const res = await deleteAlbum(albumId);
       console.log(res);
       if (res.status === 200) {
+        toast.success("Album deleted successfully.");
         router.push(`/users/${user?.id}`);
       }
     } catch (error) {

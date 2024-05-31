@@ -4,6 +4,7 @@ import { client } from "@/lib/axios";
 import { TextField } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function UploadPhoto() {
   const [title, setTitle] = useState("");
@@ -41,6 +42,7 @@ export default function UploadPhoto() {
         },
       });
       if (res.status === 201) {
+        toast.success("Photo uploaded successfully.");
         router.push(`/users/${userId}/albums/${albumId}`);
       }
     } catch (error: any) {

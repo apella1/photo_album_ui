@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEdit } from "react-icons/fa";
 
 export default function PhotoDetails() {
@@ -38,6 +39,7 @@ export default function PhotoDetails() {
     try {
       const res = await updatePhotoTitle(photoId, { title: title });
       if (res.status == 200) {
+        toast.success("Photo title updated successfully.");
         setTitle(title);
         setEdit(false);
       }
