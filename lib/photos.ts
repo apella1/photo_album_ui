@@ -25,5 +25,5 @@ export function getAllPhotos() {
 }
 
 export function deletePhoto(photoId: string) {
-  return client.delete(`photos/${photoId}`).then((res) => res.data);
+  return client.delete(`photos/${photoId}`);
 }

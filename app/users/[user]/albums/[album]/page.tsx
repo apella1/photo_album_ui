@@ -31,8 +31,9 @@ export default function UserAlbums() {
     setIsDeleteLoading(true);
     try {
       const res = await deleteAlbum(albumId);
+      console.log(res);
       if (res.status === 200) {
-        router.push(`/users/${user?.id}/albums`);
+        router.push(`/users/${user?.id}`);
       }
     } catch (error) {
       console.error(error);

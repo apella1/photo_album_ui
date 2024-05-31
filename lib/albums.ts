@@ -22,5 +22,5 @@ export function getAlbumById(albumId: string) {
 }
 
 export function deleteAlbum(albumId: string) {
-  return client.delete(`albums/${albumId}`).then((res) => res.data);
+  return client.delete(`albums/${albumId}`);
 }
